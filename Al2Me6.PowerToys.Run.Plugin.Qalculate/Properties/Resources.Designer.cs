@@ -88,7 +88,7 @@ namespace Al2Me6.PowerToys.Run.Plugin.Qalculate.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Advanced unit-aware calculator. `qalc.exe` must be available from the PATH. e.g., &quot;7g/cm^3 * 1 in^3&quot;, &quot;integrate(x * sqrt(x))&quot;, &quot;75 oF to oC&quot;, &quot;0o1234 to hex&quot;..
+        ///   Looks up a localized string similar to Advanced unit-aware calculator (e.g., &quot;7g/cm^3 * 1 in^3&quot;, &quot;integrate(x * sqrt(x))&quot;, &quot;75 oF to oC&quot;, &quot;0o1234 to hex&quot;). `qalc.exe` must be available from the `PATH`!.
         /// </summary>
         public static string plugin_description {
             get {
