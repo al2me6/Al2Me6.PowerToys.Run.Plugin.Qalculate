@@ -49,7 +49,13 @@ namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
             RegexOptions.IgnorePatternWhitespace | RegexOptions.ExplicitCapture)]
         private static partial Regex UnitConversion();
 
-        [GeneratedRegex(@"^(?:0[BbOoXx])?[0-9A-Fa-f]+(?:\s+to\s+(?:bin|binary|oct|octal|hex|hexadecimal))?$")]
+        [GeneratedRegex(
+            @"^(
+              ((0[BbOo])?[0-9]+)
+              |(0[Xx][0-9A-Fa-f]+)
+            )
+            (\s+to\s+(?:bin|binary|oct|octal|hex|hexadecimal))?$",
+            RegexOptions.IgnorePatternWhitespace | RegexOptions.ExplicitCapture)]
         private static partial Regex BaseConversion();
 
         private static readonly string? _qalculatePath = null;
