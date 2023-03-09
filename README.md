@@ -1,6 +1,6 @@
 # (Unofficial) Qalculate plugin for PowerToys Run
 
-This repo supplies an alternative calculator/unit converter plugin powered by [Qalculate](https://qalculate.github.io).
+This repo supplies an alternative calculator/unit converter plugin for [PowerToys Run](https://learn.microsoft.com/en-us/windows/powertoys/run), powered by [Qalculate](https://qalculate.github.io).
 
 The following computations are triggered globally:
 
@@ -11,6 +11,8 @@ The following computations are triggered globally:
 - queries involving units
 
 Full access to Qalculate syntax requires use of its trigger keyword (default `==`). It is recommended that the build-in Calculator and Unit Converter plugins be disabled and for the `=` trigger keyword to be re-bound to Qalculate.
+
+Note that currency conversion is _not_ enabled.
 
 ## Build & Install
 
