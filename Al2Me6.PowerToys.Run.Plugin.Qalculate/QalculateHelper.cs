@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
 {
-    public static partial class QalculateHelper
+    public partial class QalculateHelper
     {
         [GeneratedRegex(@"^(?:[0-9\.,\+\-\*/\^\(\)\[\]\{\}Ee&|~\s])+$")]
         private static partial Regex BasicExpressionChars();
@@ -58,18 +59,39 @@ namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
             RegexOptions.IgnorePatternWhitespace | RegexOptions.ExplicitCapture)]
         private static partial Regex BaseConversion();
 
-        private static readonly string? _qalculatePath = null;
+        private string? _qalculatePath = null;
 
-        static QalculateHelper()
+        public QalculateHelper()
         {
-            var sb = new StringBuilder("qalc.exe");
-            if (PathFindOnPath(sb, null))
-            {
-                _qalculatePath = sb.ToString();
-            }
+            OverridePath(null);
         }
 
-        public static bool QalculateFound => _qalculatePath != null;
+        public bool QalculateFound => _qalculatePath != null;
+
+        public void OverridePath(string? path)
+        {
+            string? candidate = null;
+
+            if (!string.IsNullOrEmpty(path))
+            {
+                var qalc = $"{path}\\qalc.exe";
+                if (File.Exists(qalc))
+                {
+                    candidate = qalc;
+                }
+            }
+
+            if (candidate == null)
+            {
+                StringBuilder sb = new("qalc.exe");
+                if (PathFindOnPath(sb, null))
+                {
+                    candidate = sb.ToString();
+                }
+            }
+
+            _qalculatePath = candidate;
+        }
 
         public static bool ShouldEvaluateGlobally(string query)
         {
@@ -80,7 +102,7 @@ namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
                 || BaseConversion().IsMatch(query);
         }
 
-        public static string? Evaluate(string query)
+        public string? Evaluate(string query)
         {
             if (_qalculatePath == null)
             {

@@ -1,12 +1,14 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using ManagedCommon;
+using Microsoft.PowerToys.Settings.UI.Library;
 using Wox.Plugin;
 using Wox.Plugin.Logger;
 
 namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
 {
-    public class Main : IPlugin, IPluginI18n, IDisposable
+    public class Main : IPlugin, IPluginI18n, ISettingProvider, IDisposable
     {
         public static string PluginID => "E9DDBD21B1AE491AAF4C51B389C737AD";
 
@@ -23,6 +25,22 @@ namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
         public string GetTranslatedPluginTitle() => Name;
 
         public string GetTranslatedPluginDescription() => Description;
+
+        private const string CONFIG_KEY_PATH = "QalculatePath";
+
+        public IEnumerable<PluginAdditionalOption> AdditionalOptions => new List<PluginAdditionalOption>()
+        {
+            new()
+            {
+                PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Textbox,
+                Key = CONFIG_KEY_PATH,
+                DisplayLabel = Properties.Resources.qalc_path,
+                DisplayDescription = Properties.Resources.qalc_path_desc,
+                TextValue = "",
+            }
+        };
+
+        private readonly QalculateHelper helper = new();
 
         public void Init(PluginInitContext? context)
         {
@@ -41,7 +59,7 @@ namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
             string? search = query.Search?.Trim();
             bool isGlobalQuery = string.IsNullOrEmpty(query.ActionKeyword);
 
-            if (!QalculateHelper.QalculateFound || string.IsNullOrEmpty(search))
+            if (!helper.QalculateFound || string.IsNullOrEmpty(search))
             {
                 return new();
             }
@@ -53,7 +71,7 @@ namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
 
             try
             {
-                var result = QalculateHelper.Evaluate(search);
+                var result = helper.Evaluate(search);
 
                 if (result == null)
                 {
@@ -136,6 +154,22 @@ namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
         private void OnThemeChanged(Theme currentTheme, Theme newTheme)
         {
             UpdateIconPath(newTheme);
+        }
+
+        public Control CreateSettingPanel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateSettings(PowerLauncherPluginSettings settings)
+        {
+            if (settings.AdditionalOptions == null)
+            {
+                return;
+            }
+
+            var path = settings.AdditionalOptions.FirstOrDefault(o => o.Key == CONFIG_KEY_PATH)?.TextValue;
+            helper.OverridePath(path);
         }
 
         public void Dispose()

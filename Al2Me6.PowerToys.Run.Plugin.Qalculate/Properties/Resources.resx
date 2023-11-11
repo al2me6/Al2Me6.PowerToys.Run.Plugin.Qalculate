@@ -127,12 +127,18 @@
     <value>Failed to evaluate input</value>
   </data>
   <data name="plugin_description" xml:space="preserve">
-    <value>Advanced unit-aware calculator (e.g., "7g/cm^3 * 1 in^3", "integrate(x * sqrt(x))", "75 oF to oC", "0o1234 to hex"). `qalc.exe` must be available from the `PATH`!</value>
+    <value>Advanced unit-aware calculator (e.g., "7g/cm^3 * 1 in^3", "integrate(x * sqrt(x))", "75 oF to oC", "0o1234 to hex").</value>
   </data>
   <data name="plugin_name" xml:space="preserve">
     <value>Qalculate</value>
   </data>
   <data name="qalc_exec_error" xml:space="preserve">
     <value>Could not execute Qalculate</value>
+  </data>
+  <data name="qalc_path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="qalc_path_desc" xml:space="preserve">
+    <value>Path to `qalc.exe`; leave empty to search from PATH.</value>
   </data>
 </root>
