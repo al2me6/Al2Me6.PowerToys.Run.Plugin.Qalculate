@@ -8,6 +8,8 @@ namespace Al2Me6.PowerToys.Run.Plugin.Qalculate
 {
     public class Main : IPlugin, IPluginI18n, IDisposable
     {
+        public static string PluginID => "E9DDBD21B1AE491AAF4C51B389C737AD";
+
         private bool _disposed;
 
         private PluginInitContext? Context { get; set; }
